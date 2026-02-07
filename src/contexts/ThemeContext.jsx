@@ -2,13 +2,17 @@ import { createContext, useContext, useState, useEffect } from 'react'
 
 const ThemeContext = createContext(null)
 
-// localStorageからテーマを読み込む
+// localStorageからテーマを読み込む（未設定時はOS設定を参照）
 function loadTheme() {
   try {
     const saved = localStorage.getItem('todoAppTheme')
     if (saved === 'light' || saved === 'dark') return saved
   } catch (err) {
     console.error('テーマの読み込みに失敗:', err)
+  }
+  // OS設定のカラースキームを参照し、未対応の場合はダークをデフォルトにする
+  if (window.matchMedia?.('(prefers-color-scheme: light)').matches) {
+    return 'light'
   }
   return 'dark'
 }

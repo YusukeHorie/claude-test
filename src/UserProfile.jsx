@@ -73,7 +73,7 @@ function UserProfile() {
 
   return (
     <div className="relative max-w-[560px] w-full mx-auto mt-6 p-8 rounded-2xl overflow-hidden transition-all duration-300"
-      style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', boxShadow: 'var(--card-shadow)' }}
+      style={{ background: 'var(--card-gradient)', border: '1px solid var(--card-border)', boxShadow: 'var(--card-shadow)' }}
     >
       {/* 背景のグロー */}
       <div className="absolute -bottom-20 -left-20 w-[200px] h-[200px] pointer-events-none animate-pulse rounded-full"
