@@ -10,7 +10,11 @@ import SortControls from './SortControls'
 import CategoryManager from './CategoryManager'
 import ThemeToggle from './ThemeToggle'
 
-// 優先度の重み（ソート用）
+/**
+ * 優先度の重み定義（ソート用）
+ * 値が小さいほど優先度が高い
+ * @const {Object<string, number>}
+ */
 const PRIORITY_WEIGHT = {
   high: 0,
   medium: 1,
@@ -18,7 +22,11 @@ const PRIORITY_WEIGHT = {
   none: 3,
 }
 
-// localStorageからTodoを読み込む
+/**
+ * localStorageからユーザーに紐づくTodo一覧を読み込む
+ * @param {string} userId - ユーザーID
+ * @returns {Array<{id: number, text: string, done: boolean, category: string, priority: string, dueDate: string|null}>} Todo配列
+ */
 function loadTodos(userId) {
   try {
     const saved = localStorage.getItem(`todoApp_${userId}_todos`)
@@ -29,7 +37,13 @@ function loadTodos(userId) {
   return []
 }
 
-// Todoメインアプリケーションコンポーネント
+/**
+ * Todoメインアプリケーションコンポーネント
+ * Todo一覧の表示、追加、完了切替、削除、ドラッグ&ドロップ並び替え、
+ * カテゴリフィルタリング、ソート機能を統合するメインコンポーネント
+ * @component
+ * @returns {JSX.Element}
+ */
 function TodoApp() {
   const { user } = useAuth()
   const [todos, setTodos] = useState(() => user ? loadTodos(user.id) : [])

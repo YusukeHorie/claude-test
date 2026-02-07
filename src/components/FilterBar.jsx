@@ -1,6 +1,15 @@
 import { useCategories } from '../contexts/CategoryContext'
 
-// カテゴリフィルターバーコンポーネント
+/**
+ * カテゴリフィルターバーコンポーネント
+ * 「すべて」ボタンと各カテゴリのフィルターボタン、カテゴリ管理ボタンを表示する
+ * @component
+ * @param {Object} props
+ * @param {string} props.filterCategory - 現在選択中のフィルターカテゴリID（'all'で全表示）
+ * @param {Function} props.setFilterCategory - フィルターカテゴリ変更コールバック。カテゴリIDを引数に取る
+ * @param {Function} props.onOpenCategoryManager - カテゴリ管理モーダルを開くコールバック
+ * @returns {JSX.Element}
+ */
 function FilterBar({ filterCategory, setFilterCategory, onOpenCategoryManager }) {
   const { categories } = useCategories()
 

@@ -3,7 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import ThemeToggle from './ThemeToggle'
 
-// ログイン・新規登録ページコンポーネント
+/**
+ * ログイン・新規登録ページコンポーネント
+ * タブ切替でログインと新規登録フォームを表示する
+ * バリデーション後、認証成功時にルートページへ遷移する
+ * @component
+ * @returns {JSX.Element}
+ */
 function LoginPage() {
   const [isRegister, setIsRegister] = useState(false)
   const [name, setName] = useState('')

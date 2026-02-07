@@ -2,28 +2,42 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { useCategories } from '../contexts/CategoryContext'
 
-// 優先度の色定義
+/**
+ * 優先度に対応するカラーコード定義
+ * @const {Object<string, string>}
+ */
 const PRIORITY_COLORS = {
   high: '#ef4444',
   medium: '#f59e0b',
   low: '#3b82f6',
 }
 
-// 優先度ラベル
+/**
+ * 優先度に対応する日本語ラベル定義
+ * @const {Object<string, string>}
+ */
 const PRIORITY_LABELS = {
   high: '高',
   medium: '中',
   low: '低',
 }
 
-// 期限の表示フォーマット（MM/DD）
+/**
+ * 期限日付をMM/DD形式にフォーマットする
+ * @param {string|null} dateStr - YYYY-MM-DD形式の日付文字列
+ * @returns {string|null} MM/DD形式の文字列、またはnull
+ */
 function formatDueDate(dateStr) {
   if (!dateStr) return null
   const date = new Date(dateStr + 'T00:00:00')
   return `${date.getMonth() + 1}/${date.getDate()}`
 }
 
-// 期限切れかどうかを判定
+/**
+ * 指定日付が期限切れ（今日より前）かどうかを判定する
+ * @param {string|null} dateStr - YYYY-MM-DD形式の日付文字列
+ * @returns {boolean} 期限切れの場合true
+ */
 function isOverdue(dateStr) {
   if (!dateStr) return false
   const today = new Date()
@@ -32,7 +46,11 @@ function isOverdue(dateStr) {
   return due < today
 }
 
-// 今日が期限かどうかを判定
+/**
+ * 指定日付が今日かどうかを判定する
+ * @param {string|null} dateStr - YYYY-MM-DD形式の日付文字列
+ * @returns {boolean} 今日が期限の場合true
+ */
 function isDueToday(dateStr) {
   if (!dateStr) return false
   const today = new Date()
@@ -40,7 +58,17 @@ function isDueToday(dateStr) {
   return dateStr === todayStr
 }
 
-// ドラッグ&ドロップ対応のTodoアイテムコンポーネント
+/**
+ * ドラッグ&ドロップ対応のTodoアイテムコンポーネント
+ * @dnd-kit/sortableを使用し、完了切替、削除、優先度表示、期限表示を含む
+ * @component
+ * @param {Object} props
+ * @param {{id: number, text: string, done: boolean, category: string, priority: string, dueDate: string|null}} props.todo - Todoオブジェクト
+ * @param {Function} props.toggleTodo - 完了状態切替コールバック。TodoのIDを引数に取る
+ * @param {Function} props.deleteTodo - 削除コールバック。TodoのIDを引数に取る
+ * @param {boolean} props.dragDisabled - ドラッグ無効化フラグ
+ * @returns {JSX.Element}
+ */
 function SortableItem({ todo, toggleTodo, deleteTodo, dragDisabled }) {
   const {
     attributes,

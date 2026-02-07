@@ -6,7 +6,13 @@ import ProtectedRoute from './components/ProtectedRoute'
 import TodoApp from './components/TodoApp'
 import './App.css'
 
-// ルーティングシェルコンポーネント
+/**
+ * ルーティングシェルコンポーネント
+ * ログインページと認証保護されたTodoアプリのルートを定義する
+ * 認証済みユーザーにはCategoryProviderをユーザーIDに紐づけて提供する
+ * @component
+ * @returns {JSX.Element}
+ */
 function App() {
   const { user } = useAuth()
 

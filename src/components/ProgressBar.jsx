@@ -1,4 +1,13 @@
-// 進捗バーコンポーネント
+/**
+ * 進捗バーコンポーネント
+ * 完了数と総数から進捗率を計算し、バーとテキストで表示する
+ * Todoが0件の場合は何も表示しない
+ * @component
+ * @param {Object} props
+ * @param {number} props.doneCount - 完了済みTodo数
+ * @param {number} props.totalCount - 全Todo数
+ * @returns {JSX.Element|null} Todoが0件の場合はnullを返す
+ */
 function ProgressBar({ doneCount, totalCount }) {
   const progress = totalCount > 0 ? (doneCount / totalCount) * 100 : 0
 

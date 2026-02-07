@@ -1,7 +1,14 @@
 import { useState } from 'react'
 import { useCategories } from '../contexts/CategoryContext'
 
-// Todo追加フォーム（テキスト、カテゴリ、優先度、期限入力付き）
+/**
+ * Todo追加フォームコンポーネント
+ * テキスト入力、カテゴリ選択、優先度選択、期限設定を提供する
+ * @component
+ * @param {Object} props
+ * @param {Function} props.onAdd - Todo追加コールバック。{text, category, priority, dueDate}を引数に取る
+ * @returns {JSX.Element}
+ */
 function TodoForm({ onAdd }) {
   const [input, setInput] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('none')

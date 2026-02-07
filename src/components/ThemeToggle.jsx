@@ -1,6 +1,11 @@
 import { useTheme } from '../contexts/ThemeContext'
 
-// テーマ切替トグルボタンコンポーネント
+/**
+ * テーマ切替トグルボタンコンポーネント
+ * ダークモード時は太陽アイコン、ライトモード時は月アイコンを表示する
+ * @component
+ * @returns {JSX.Element}
+ */
 function ThemeToggle() {
   const { theme, toggleTheme } = useTheme()
 

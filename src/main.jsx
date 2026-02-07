@@ -1,3 +1,9 @@
+/**
+ * アプリケーションのエントリーポイント
+ * React 19のStrictMode、ルーティング、テーマ、認証のプロバイダーを設定し、
+ * ルート要素にアプリケーションをマウントする
+ * @module main
+ */
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'

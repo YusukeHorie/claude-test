@@ -1,8 +1,16 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 
+/**
+ * テーマコンテキスト
+ * @type {React.Context<{theme: string, toggleTheme: Function}|null>}
+ */
 const ThemeContext = createContext(null)
 
-// localStorageからテーマを読み込む（未設定時はOS設定を参照）
+/**
+ * localStorageからテーマ設定を読み込む
+ * 未設定時はOSのカラースキーム設定を参照し、デフォルトはダークモード
+ * @returns {'light'|'dark'} テーマ文字列
+ */
 function loadTheme() {
   try {
     const saved = localStorage.getItem('todoAppTheme')
@@ -17,7 +25,15 @@ function loadTheme() {
   return 'dark'
 }
 
-// テーマプロバイダー：ライト/ダークモード管理
+/**
+ * テーマプロバイダーコンポーネント
+ * ライト/ダークモードの切替機能を提供し、data-theme属性とlocalStorageに同期する
+ * @component
+ * @param {Object} props
+ * @param {React.ReactNode} props.children - 子コンポーネント
+ * @returns {JSX.Element}
+ * @provides {{theme: 'light'|'dark', toggleTheme: Function}}
+ */
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(loadTheme)
 
@@ -43,7 +59,12 @@ export function ThemeProvider({ children }) {
   )
 }
 
-// テーマコンテキストフック
+/**
+ * テーマコンテキストを使用するカスタムフック
+ * ThemeProvider内でのみ使用可能
+ * @returns {{theme: 'light'|'dark', toggleTheme: Function}}
+ * @throws {Error} ThemeProvider外で使用した場合にエラーをスローする
+ */
 // eslint-disable-next-line react-refresh/only-export-components
 export function useTheme() {
   const context = useContext(ThemeContext)

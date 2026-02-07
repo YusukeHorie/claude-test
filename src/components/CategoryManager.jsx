@@ -1,14 +1,26 @@
 import { useState } from 'react'
 import { useCategories } from '../contexts/CategoryContext'
 
-// カラーパレット（12色）
+/**
+ * カテゴリ色選択用のカラーパレット（12色）
+ * @const {Array<string>}
+ */
 const COLOR_PALETTE = [
   '#ef4444', '#f97316', '#f59e0b', '#84cc16',
   '#10b981', '#06b6d4', '#3b82f6', '#6366f1',
   '#8b5cf6', '#a855f7', '#ec4899', '#f43f5e',
 ]
 
-// カテゴリCRUD管理パネルコンポーネント
+/**
+ * カテゴリCRUD管理パネルコンポーネント
+ * モーダル形式でカテゴリの一覧表示、新規追加、編集、削除を行う
+ * デフォルトカテゴリは編集・削除不可。最大15個まで追加可能
+ * @component
+ * @param {Object} props
+ * @param {Function} props.onClose - モーダルを閉じるコールバック
+ * @param {Function} props.onDeleteCategory - カテゴリ削除時の通知コールバック。削除されたカテゴリIDを引数に取る
+ * @returns {JSX.Element}
+ */
 function CategoryManager({ onClose, onDeleteCategory }) {
   const { categories, addCategory, updateCategory, deleteCategory } = useCategories()
   const [newLabel, setNewLabel] = useState('')

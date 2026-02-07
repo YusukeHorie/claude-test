@@ -2,7 +2,13 @@ import { useState } from 'react'
 import { useAuth } from './contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
-// ユーザープロフィールの表示・編集コンポーネント
+/**
+ * ユーザープロフィールの表示・編集コンポーネント
+ * ユーザー名・メールアドレスの表示、インライン編集、ログアウト機能を提供する
+ * 編集内容はlocalStorageに保存される
+ * @component
+ * @returns {JSX.Element|null} 未認証時はnullを返す
+ */
 function UserProfile() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()

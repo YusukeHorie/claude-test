@@ -1,8 +1,15 @@
 import { createContext, useContext, useState } from 'react'
 
+/**
+ * 認証コンテキスト
+ * @type {React.Context<{user: Object|null, loading: boolean, register: Function, login: Function, logout: Function}|null>}
+ */
 const AuthContext = createContext(null)
 
-// localStorageから初期ユーザーを読み込む
+/**
+ * localStorageから保存済みのユーザー情報を読み込む
+ * @returns {Object|null} ユーザー情報オブジェクト（{id, name, email}）、または未保存時はnull
+ */
 function loadInitialUser() {
   try {
     const saved = localStorage.getItem('todoAppUser')
@@ -13,7 +20,16 @@ function loadInitialUser() {
   return null
 }
 
-// 認証プロバイダー：localStorage模擬認証
+/**
+ * 認証プロバイダーコンポーネント
+ * localStorageを使用した模擬認証機能を提供する
+ * ユーザー登録、ログイン、ログアウトの機能をコンテキストで配信する
+ * @component
+ * @param {Object} props
+ * @param {React.ReactNode} props.children - 子コンポーネント
+ * @returns {JSX.Element}
+ * @provides {{user: Object|null, loading: boolean, register: Function, login: Function, logout: Function}}
+ */
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(loadInitialUser)
 
@@ -73,7 +89,12 @@ export function AuthProvider({ children }) {
   )
 }
 
-// 認証コンテキストフック
+/**
+ * 認証コンテキストを使用するカスタムフック
+ * AuthProvider内でのみ使用可能
+ * @returns {{user: Object|null, loading: boolean, register: Function, login: Function, logout: Function}}
+ * @throws {Error} AuthProvider外で使用した場合にエラーをスローする
+ */
 // eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   const context = useContext(AuthContext)
