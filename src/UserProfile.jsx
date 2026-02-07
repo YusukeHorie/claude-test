@@ -72,12 +72,12 @@ function UserProfile() {
   if (!user) return null
 
   return (
-    <div className="relative max-w-[560px] w-full mx-auto mt-6 p-8 rounded-2xl border border-white/[0.06] overflow-hidden"
-      style={{ background: 'linear-gradient(145deg, #1a1a2e, #16213e)' }}
+    <div className="relative max-w-[560px] w-full mx-auto mt-6 p-8 rounded-2xl overflow-hidden transition-all duration-300"
+      style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', boxShadow: 'var(--card-shadow)' }}
     >
       {/* 背景のグロー */}
       <div className="absolute -bottom-20 -left-20 w-[200px] h-[200px] pointer-events-none animate-pulse rounded-full"
-        style={{ background: 'radial-gradient(circle, rgba(16, 185, 129, 0.2), transparent 70%)' }}
+        style={{ background: 'var(--profile-glow)' }}
       />
 
       {/* タイトル */}
@@ -89,21 +89,21 @@ function UserProfile() {
         // 編集モード
         <div className="flex flex-col gap-4">
           <div>
-            <label className="block text-sm text-gray-400 mb-1">名前</label>
+            <label className="block text-sm text-[var(--text-secondary)] mb-1">名前</label>
             <input
               type="text"
               value={editFormData.userName}
               onChange={(e) => setEditFormData({ ...editFormData, userName: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl text-sm text-gray-200 outline-none border border-white/10 bg-white/5 transition-all duration-300 focus:border-emerald-400 focus:shadow-[0_0_20px_rgba(16,185,129,0.15)] focus:bg-white/[0.08]"
+              className="w-full px-4 py-3 rounded-xl text-sm text-[var(--text-primary)] outline-none border border-[var(--input-border)] bg-[var(--input-bg)] transition-all duration-300 focus:border-emerald-400 focus:shadow-[0_0_20px_rgba(16,185,129,0.15)] focus:bg-[var(--input-focus-bg)]"
             />
           </div>
           <div>
-            <label className="block text-sm text-gray-400 mb-1">メールアドレス</label>
+            <label className="block text-sm text-[var(--text-secondary)] mb-1">メールアドレス</label>
             <input
               type="email"
               value={editFormData.userEmail}
               onChange={(e) => setEditFormData({ ...editFormData, userEmail: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl text-sm text-gray-200 outline-none border border-white/10 bg-white/5 transition-all duration-300 focus:border-emerald-400 focus:shadow-[0_0_20px_rgba(16,185,129,0.15)] focus:bg-white/[0.08]"
+              className="w-full px-4 py-3 rounded-xl text-sm text-[var(--text-primary)] outline-none border border-[var(--input-border)] bg-[var(--input-bg)] transition-all duration-300 focus:border-emerald-400 focus:shadow-[0_0_20px_rgba(16,185,129,0.15)] focus:bg-[var(--input-focus-bg)]"
             />
           </div>
 
@@ -117,7 +117,7 @@ function UserProfile() {
             </button>
             <button
               onClick={handleCancel}
-              className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-gray-400 border border-white/10 bg-white/5 cursor-pointer transition-all duration-300 hover:bg-white/10 hover:text-gray-200"
+              className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-[var(--text-secondary)] border border-[var(--input-border)] bg-[var(--input-bg)] cursor-pointer transition-all duration-300 hover:bg-[var(--btn-filter-hover-bg)] hover:text-[var(--text-primary)]"
             >
               キャンセル
             </button>
@@ -134,15 +134,15 @@ function UserProfile() {
           </div>
 
           {/* プロフィール情報 */}
-          <div className="flex flex-col gap-3 p-4 rounded-xl bg-white/[0.03] border border-white/5">
+          <div className="flex flex-col gap-3 p-4 rounded-xl bg-[var(--todo-item-bg)] border border-[var(--todo-item-border)]">
             <div className="flex items-center gap-3">
-              <span className="text-xs text-gray-500 w-20 shrink-0">名前</span>
-              <span className="text-gray-200">{user.name}</span>
+              <span className="text-xs text-[var(--text-muted)] w-20 shrink-0">名前</span>
+              <span className="text-[var(--text-primary)]">{user.name}</span>
             </div>
-            <div className="h-px bg-white/5" />
+            <div className="h-px bg-[var(--input-bg)]" />
             <div className="flex items-center gap-3">
-              <span className="text-xs text-gray-500 w-20 shrink-0">メール</span>
-              <span className="text-gray-200">{user.email}</span>
+              <span className="text-xs text-[var(--text-muted)] w-20 shrink-0">メール</span>
+              <span className="text-[var(--text-primary)]">{user.email}</span>
             </div>
           </div>
 
@@ -155,7 +155,7 @@ function UserProfile() {
           </button>
           <button
             onClick={handleLogout}
-            className="py-2.5 rounded-xl text-sm font-semibold text-gray-400 border border-white/10 bg-white/5 cursor-pointer transition-all duration-300 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20"
+            className="py-2.5 rounded-xl text-sm font-semibold text-[var(--text-secondary)] border border-[var(--input-border)] bg-[var(--input-bg)] cursor-pointer transition-all duration-300 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20"
           >
             ログアウト
           </button>

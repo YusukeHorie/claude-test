@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import ThemeToggle from './ThemeToggle'
 
 // ログイン・新規登録ページコンポーネント
 function LoginPage() {
@@ -73,6 +74,9 @@ function LoginPage() {
   return (
     <div className="login-page">
       <div className="login-card">
+        <div className="login-theme-toggle">
+          <ThemeToggle />
+        </div>
         <div className="login-glow" />
         <h1 className="login-title">
           <span className="title-icon">&#10003;</span> Todo App

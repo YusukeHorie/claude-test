@@ -8,6 +8,7 @@ import FilterBar from './FilterBar'
 import ProgressBar from './ProgressBar'
 import SortControls from './SortControls'
 import CategoryManager from './CategoryManager'
+import ThemeToggle from './ThemeToggle'
 
 // 優先度の重み（ソート用）
 const PRIORITY_WEIGHT = {
@@ -124,9 +125,12 @@ function TodoApp() {
     <>
       <div className="app">
         <div className="glow-bg" />
-        <h1 className="title">
-          <span className="title-icon">&#10003;</span> Todo App
-        </h1>
+        <div className="title-row">
+          <h1 className="title">
+            <span className="title-icon">&#10003;</span> Todo App
+          </h1>
+          <ThemeToggle />
+        </div>
 
         <TodoForm onAdd={addTodo} />
 

@@ -8,12 +8,153 @@
   padding: 0;
 }
 
+/* ===== ダークテーマ（デフォルト） ===== */
+:root,
+[data-theme="dark"] {
+  --bg-body: #0f0f1a;
+  --text-primary: #e0e0e0;
+  --text-secondary: #888;
+  --text-muted: #666;
+  --text-dimmed: #555;
+  --text-faint: #444;
+
+  --card-bg: linear-gradient(145deg, #1a1a2e, #16213e);
+  --card-border: rgba(255, 255, 255, 0.06);
+  --card-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 80px rgba(99, 102, 241, 0.08);
+
+  --input-bg: rgba(255, 255, 255, 0.05);
+  --input-border: rgba(255, 255, 255, 0.1);
+  --input-focus-bg: rgba(255, 255, 255, 0.08);
+  --input-placeholder: #666;
+  --input-color-scheme: dark;
+
+  --option-bg: #1a1a2e;
+
+  --btn-filter-bg: rgba(255, 255, 255, 0.04);
+  --btn-filter-border: rgba(255, 255, 255, 0.08);
+  --btn-filter-active-bg: rgba(255, 255, 255, 0.1);
+  --btn-filter-active-border: rgba(255, 255, 255, 0.2);
+  --btn-filter-hover-bg: rgba(255, 255, 255, 0.08);
+
+  --sort-btn-bg: rgba(255, 255, 255, 0.03);
+  --sort-btn-border: rgba(255, 255, 255, 0.06);
+  --sort-btn-hover-bg: rgba(255, 255, 255, 0.06);
+
+  --progress-track: rgba(255, 255, 255, 0.08);
+
+  --todo-item-bg: rgba(255, 255, 255, 0.03);
+  --todo-item-border: rgba(255, 255, 255, 0.05);
+  --todo-item-hover-bg: rgba(255, 255, 255, 0.06);
+  --todo-item-hover-border: rgba(255, 255, 255, 0.1);
+  --todo-item-hover-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+  --checkbox-border: rgba(255, 255, 255, 0.2);
+
+  --priority-badge-bg: rgba(255, 255, 255, 0.05);
+  --due-date-bg: rgba(255, 255, 255, 0.04);
+
+  --delete-hover-bg: rgba(239, 68, 68, 0.15);
+
+  --overlay-bg: rgba(0, 0, 0, 0.6);
+  --manager-border: rgba(255, 255, 255, 0.1);
+  --manager-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+  --manager-close-bg: rgba(255, 255, 255, 0.05);
+  --category-item-bg: rgba(255, 255, 255, 0.03);
+  --category-item-border: rgba(255, 255, 255, 0.05);
+  --category-divider: rgba(255, 255, 255, 0.06);
+  --swatch-selected-border: white;
+  --swatch-selected-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+
+  --tab-bg: rgba(255, 255, 255, 0.03);
+  --tab-border: rgba(255, 255, 255, 0.08);
+  --tab-hover-bg: rgba(255, 255, 255, 0.06);
+
+  --drag-disabled-color: #333;
+
+  --theme-toggle-bg: rgba(255, 255, 255, 0.05);
+  --theme-toggle-hover-bg: rgba(255, 255, 255, 0.1);
+
+  /* UserProfile用（Tailwind向け） */
+  --profile-card-bg: linear-gradient(145deg, #1a1a2e, #16213e);
+  --profile-glow: radial-gradient(circle, rgba(16, 185, 129, 0.2), transparent 70%);
+}
+
+/* ===== ライトテーマ ===== */
+[data-theme="light"] {
+  --bg-body: #f0f2f5;
+  --text-primary: #1a1a2e;
+  --text-secondary: #555;
+  --text-muted: #888;
+  --text-dimmed: #aaa;
+  --text-faint: #bbb;
+
+  --card-bg: linear-gradient(145deg, #ffffff, #f8f9fc);
+  --card-border: rgba(0, 0, 0, 0.08);
+  --card-shadow: 0 25px 60px rgba(0, 0, 0, 0.08), 0 0 80px rgba(99, 102, 241, 0.04);
+
+  --input-bg: rgba(0, 0, 0, 0.03);
+  --input-border: rgba(0, 0, 0, 0.12);
+  --input-focus-bg: rgba(0, 0, 0, 0.02);
+  --input-placeholder: #999;
+  --input-color-scheme: light;
+
+  --option-bg: #ffffff;
+
+  --btn-filter-bg: rgba(0, 0, 0, 0.03);
+  --btn-filter-border: rgba(0, 0, 0, 0.08);
+  --btn-filter-active-bg: rgba(99, 102, 241, 0.1);
+  --btn-filter-active-border: rgba(99, 102, 241, 0.25);
+  --btn-filter-hover-bg: rgba(0, 0, 0, 0.06);
+
+  --sort-btn-bg: rgba(0, 0, 0, 0.03);
+  --sort-btn-border: rgba(0, 0, 0, 0.06);
+  --sort-btn-hover-bg: rgba(0, 0, 0, 0.06);
+
+  --progress-track: rgba(0, 0, 0, 0.08);
+
+  --todo-item-bg: rgba(0, 0, 0, 0.02);
+  --todo-item-border: rgba(0, 0, 0, 0.06);
+  --todo-item-hover-bg: rgba(0, 0, 0, 0.04);
+  --todo-item-hover-border: rgba(0, 0, 0, 0.1);
+  --todo-item-hover-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+
+  --checkbox-border: rgba(0, 0, 0, 0.2);
+
+  --priority-badge-bg: rgba(0, 0, 0, 0.05);
+  --due-date-bg: rgba(0, 0, 0, 0.04);
+
+  --delete-hover-bg: rgba(239, 68, 68, 0.1);
+
+  --overlay-bg: rgba(0, 0, 0, 0.3);
+  --manager-border: rgba(0, 0, 0, 0.1);
+  --manager-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+  --manager-close-bg: rgba(0, 0, 0, 0.05);
+  --category-item-bg: rgba(0, 0, 0, 0.02);
+  --category-item-border: rgba(0, 0, 0, 0.06);
+  --category-divider: rgba(0, 0, 0, 0.06);
+  --swatch-selected-border: #1a1a2e;
+  --swatch-selected-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+
+  --tab-bg: rgba(0, 0, 0, 0.03);
+  --tab-border: rgba(0, 0, 0, 0.08);
+  --tab-hover-bg: rgba(0, 0, 0, 0.06);
+
+  --drag-disabled-color: #ccc;
+
+  --theme-toggle-bg: rgba(0, 0, 0, 0.05);
+  --theme-toggle-hover-bg: rgba(0, 0, 0, 0.1);
+
+  --profile-card-bg: linear-gradient(145deg, #ffffff, #f8f9fc);
+  --profile-glow: radial-gradient(circle, rgba(16, 185, 129, 0.1), transparent 70%);
+}
+
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: #0f0f1a;
-  color: #e0e0e0;
+  background: var(--bg-body);
+  color: var(--text-primary);
   min-height: 100vh;
   display: flex;
   justify-content: center;
   -webkit-font-smoothing: antialiased;
+  transition: background 0.3s ease, color 0.3s ease;
 }
