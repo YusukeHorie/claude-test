@@ -7,6 +7,23 @@
     <title>claude-test</title>
   </head>
   <body>
+    <!-- FOUC防止: React描画前にテーマをdata属性に同期的に設定 -->
+    <script>
+      (function() {
+        try {
+          var t = localStorage.getItem('todoAppTheme');
+          if (t === 'light' || t === 'dark') {
+            document.documentElement.setAttribute('data-theme', t);
+          } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+            document.documentElement.setAttribute('data-theme', 'light');
+          } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+          }
+        } catch(e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
