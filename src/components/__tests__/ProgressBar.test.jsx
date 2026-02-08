@@ -10,7 +10,7 @@ describe('ProgressBar', () => {
     expect(screen.getByText('3 / 10 完了')).toBeInTheDocument()
 
     // プログレスバーのfillが30%幅で表示される
-    const fill = document.querySelector('.progress-fill')
+    const fill = document.querySelector('.progress-fill-gradient')
     expect(fill).toHaveStyle({ width: '30%' })
   })
 
@@ -28,7 +28,7 @@ describe('ProgressBar', () => {
     expect(screen.getByText('5 / 5 完了')).toBeInTheDocument()
 
     // プログレスバーのfillが100%幅で表示される
-    const fill = document.querySelector('.progress-fill')
+    const fill = document.querySelector('.progress-fill-gradient')
     expect(fill).toHaveStyle({ width: '100%' })
   })
 })

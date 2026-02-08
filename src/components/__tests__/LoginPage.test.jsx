@@ -75,8 +75,9 @@ describe('LoginPage', () => {
     const user = userEvent.setup()
     renderWithProviders(<LoginPage />)
 
-    // メールアドレスを空のままログイン送信ボタン（.login-submit）をクリック
-    const loginSubmit = document.querySelector('.login-submit')
+    // メールアドレスを空のままフォーム内のログイン送信ボタンをクリック
+    const form = document.querySelector('form')
+    const loginSubmit = form.querySelector('button[type="submit"]')
     await user.click(loginSubmit)
 
     // エラーメッセージが表示される

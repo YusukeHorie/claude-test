@@ -35,45 +35,79 @@ export function AuthProvider({ children }) {
 
   // ユーザー新規登録
   const register = (name, email, password) => {
-    const users = JSON.parse(localStorage.getItem('todoAppUsers') || '[]')
+    try {
+      const users = JSON.parse(localStorage.getItem('todoAppUsers') || '[]')
 
-    // メール重複チェック
-    if (users.some(u => u.email === email)) {
-      throw new Error('このメールアドレスは既に登録されています')
+      // メール重複チェック
+      if (users.some(u => u.email === email)) {
+        throw new Error('このメールアドレスは既に登録されています')
+      }
+
+      const newUser = {
+        id: crypto.randomUUID(),
+        name,
+        email,
+        password,
+      }
+
+      users.push(newUser)
+      localStorage.setItem('todoAppUsers', JSON.stringify(users))
+
+      // 登録後すぐにログイン状態にする
+      const userData = { id: newUser.id, name: newUser.name, email: newUser.email }
+      localStorage.setItem('todoAppUser', JSON.stringify(userData))
+      setUser(userData)
+
+      return userData
+    } catch (err) {
+      // バリデーションエラーはそのまま再スロー
+      if (err.message.includes('メールアドレスは既に')) throw err
+      console.error('ユーザー登録に失敗:', err)
+      throw new Error('登録処理中にエラーが発生しました')
     }
-
-    const newUser = {
-      id: Date.now().toString(),
-      name,
-      email,
-      password,
-    }
-
-    users.push(newUser)
-    localStorage.setItem('todoAppUsers', JSON.stringify(users))
-
-    // 登録後すぐにログイン状態にする
-    const userData = { id: newUser.id, name: newUser.name, email: newUser.email }
-    localStorage.setItem('todoAppUser', JSON.stringify(userData))
-    setUser(userData)
-
-    return userData
   }
 
   // ログイン
   const login = (email, password) => {
-    const users = JSON.parse(localStorage.getItem('todoAppUsers') || '[]')
-    const found = users.find(u => u.email === email && u.password === password)
+    try {
+      const users = JSON.parse(localStorage.getItem('todoAppUsers') || '[]')
+      const found = users.find(u => u.email === email && u.password === password)
 
-    if (!found) {
-      throw new Error('メールアドレスまたはパスワードが正しくありません')
+      if (!found) {
+        throw new Error('メールアドレスまたはパスワードが正しくありません')
+      }
+
+      const userData = { id: found.id, name: found.name, email: found.email }
+      localStorage.setItem('todoAppUser', JSON.stringify(userData))
+      setUser(userData)
+
+      return userData
+    } catch (err) {
+      // バリデーションエラーはそのまま再スロー
+      if (err.message.includes('パスワードが正しくありません')) throw err
+      console.error('ログイン処理に失敗:', err)
+      throw new Error('ログイン処理中にエラーが発生しました')
     }
+  }
 
-    const userData = { id: found.id, name: found.name, email: found.email }
-    localStorage.setItem('todoAppUser', JSON.stringify(userData))
-    setUser(userData)
+  // ユーザー情報更新
+  const updateUser = (updates) => {
+    try {
+      const users = JSON.parse(localStorage.getItem('todoAppUsers') || '[]')
+      const updatedUsers = users.map(u =>
+        u.id === user.id ? { ...u, ...updates } : u
+      )
+      localStorage.setItem('todoAppUsers', JSON.stringify(updatedUsers))
 
-    return userData
+      const updatedUser = { ...user, ...updates }
+      localStorage.setItem('todoAppUser', JSON.stringify(updatedUser))
+      setUser(updatedUser)
+
+      return updatedUser
+    } catch (err) {
+      console.error('ユーザー情報の更新に失敗:', err)
+      throw new Error('ユーザー情報の更新に失敗しました')
+    }
   }
 
   // ログアウト
@@ -83,7 +117,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading: false, register, login, logout }}>
+    <AuthContext.Provider value={{ user, loading: false, register, login, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   )

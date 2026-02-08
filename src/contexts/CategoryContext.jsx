@@ -49,13 +49,16 @@ export function CategoryProvider({ userId, children }) {
 
   // カテゴリ追加（最大15個まで）
   const addCategory = useCallback((label, color) => {
+    // updater内でprevを使って正確な件数をチェック（バッチ更新対応）
+    let limitReached = false
     setCategories(prev => {
       if (prev.length >= 15) {
-        throw new Error('カテゴリは最大15個までです')
+        limitReached = true
+        return prev
       }
 
       const newCategory = {
-        id: `custom_${Date.now()}`,
+        id: `custom_${crypto.randomUUID()}`,
         label,
         color,
         isDefault: false,
@@ -71,14 +74,20 @@ export function CategoryProvider({ userId, children }) {
       }
       return updated
     })
+    // throwはsetState外で実行（React状態を破壊しない）
+    if (limitReached) {
+      throw new Error('カテゴリは最大15個までです')
+    }
   }, [userId])
 
   // カテゴリ更新
   const updateCategory = useCallback((id, updates) => {
+    let invalid = false
     setCategories(prev => {
       const target = prev.find(c => c.id === id)
       if (!target || target.isDefault) {
-        throw new Error('このカテゴリは編集できません')
+        invalid = true
+        return prev
       }
 
       const updated = prev.map(c => c.id === id ? { ...c, ...updates } : c)
@@ -91,18 +100,21 @@ export function CategoryProvider({ userId, children }) {
       }
       return updated
     })
+    if (invalid) {
+      throw new Error('このカテゴリは編集できません')
+    }
   }, [userId])
 
   // カテゴリ削除
   const deleteCategory = useCallback((id) => {
-    let deletedId = null
+    let invalid = false
     setCategories(prev => {
       const target = prev.find(c => c.id === id)
       if (!target || target.isDefault) {
-        throw new Error('デフォルトカテゴリは削除できません')
+        invalid = true
+        return prev
       }
 
-      deletedId = id
       const filtered = prev.filter(c => c.id !== id)
       if (userId) {
         try {
@@ -113,7 +125,10 @@ export function CategoryProvider({ userId, children }) {
       }
       return filtered
     })
-    return deletedId
+    if (invalid) {
+      throw new Error('デフォルトカテゴリは削除できません')
+    }
+    return id
   }, [userId])
 
   return (

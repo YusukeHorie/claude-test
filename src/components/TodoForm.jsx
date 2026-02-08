@@ -39,21 +39,40 @@ function TodoForm({ onAdd }) {
   }
 
   return (
-    <form className="todo-form" onSubmit={handleSubmit}>
+    <form className="flex flex-col gap-2 mb-4" onSubmit={handleSubmit}>
       {/* 行1: テキスト入力 + 追加ボタン */}
-      <div className="form-row">
+      <div className="flex gap-2">
+        <label htmlFor="todo-input" className="sr-only">新しいタスク</label>
         <input
+          id="todo-input"
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="新しいタスクを追加..."
+          className="flex-1 px-4 py-3 text-[0.95rem] rounded-xl outline-none transition-all duration-300 focus-indigo"
+          style={{
+            color: 'var(--text-primary)',
+            background: 'var(--input-bg)',
+            border: '1px solid var(--input-border)',
+          }}
         />
-        <button type="submit">追加</button>
+        <button
+          type="submit"
+          className="btn-primary-gradient px-5 py-3 text-[0.95rem] font-semibold text-white border-none rounded-xl cursor-pointer transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
+        >
+          追加
+        </button>
       </div>
       {/* 行2: カテゴリ、優先度、期限 */}
-      <div className="form-row form-options">
+      <div className="flex gap-2">
         <select
-          className="category-select"
+          className="select-reset flex-1 px-2.5 py-2 text-[0.82rem] rounded-xl outline-none cursor-pointer transition-all duration-300 focus-indigo"
+          style={{
+            color: 'var(--text-primary)',
+            background: 'var(--input-bg)',
+            border: '1px solid var(--input-border)',
+          }}
+          aria-label="カテゴリ"
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
         >
@@ -62,7 +81,13 @@ function TodoForm({ onAdd }) {
           ))}
         </select>
         <select
-          className="priority-select"
+          className="select-reset flex-1 px-2.5 py-2 text-[0.82rem] rounded-xl outline-none cursor-pointer transition-all duration-300 focus-indigo"
+          style={{
+            color: 'var(--text-primary)',
+            background: 'var(--input-bg)',
+            border: '1px solid var(--input-border)',
+          }}
+          aria-label="優先度"
           value={priority}
           onChange={(e) => setPriority(e.target.value)}
         >
@@ -73,7 +98,13 @@ function TodoForm({ onAdd }) {
         </select>
         <input
           type="date"
-          className="date-input"
+          className="date-input-scheme flex-1 px-2.5 py-2 text-[0.82rem] rounded-xl outline-none cursor-pointer transition-all duration-300 focus-indigo"
+          style={{
+            color: 'var(--text-primary)',
+            background: 'var(--input-bg)',
+            border: '1px solid var(--input-border)',
+          }}
+          aria-label="期限"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
         />

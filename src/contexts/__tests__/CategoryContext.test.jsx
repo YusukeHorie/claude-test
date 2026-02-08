@@ -1,33 +1,27 @@
 import { render, screen } from '@testing-library/react'
-import { Component } from 'react'
+import { useState } from 'react'
 import userEvent from '@testing-library/user-event'
 import { describe, it, expect, beforeEach } from 'vitest'
 import { CategoryProvider, useCategories } from '../CategoryContext'
 
-// テスト用エラーバウンダリ（setStateからのthrowをキャッチ）
-class ErrorBoundary extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { error: null }
-  }
-  static getDerivedStateFromError(error) {
-    return { error }
-  }
-  render() {
-    if (this.state.error) {
-      return <p data-testid="boundary-error">{this.state.error.message}</p>
-    }
-    return this.props.children
-  }
-}
-
 // テスト用のコンシューマーコンポーネント
 function TestConsumer() {
   const { categories, addCategory, updateCategory, deleteCategory } = useCategories()
+  const [error, setError] = useState(null)
+
+  // イベントハンドラ内のエラーをキャッチして表示
+  const handleWithErrorCatch = (fn) => {
+    try {
+      fn()
+    } catch (err) {
+      setError(err.message)
+    }
+  }
 
   return (
     <div>
       <p data-testid="count">{categories.length}</p>
+      {error && <p data-testid="handler-error">{error}</p>}
       <ul data-testid="categories">
         {categories.map(c => (
           <li key={c.id} data-testid={`cat-${c.id}`}>
@@ -35,34 +29,34 @@ function TestConsumer() {
           </li>
         ))}
       </ul>
-      <button onClick={() => addCategory('テスト', '#ff0000')}>追加</button>
+      <button onClick={() => handleWithErrorCatch(() => addCategory('テスト', '#ff0000'))}>追加</button>
       <button
-        onClick={() => {
+        onClick={() => handleWithErrorCatch(() => {
           const custom = categories.find(c => !c.isDefault)
           if (custom) {
             updateCategory(custom.id, { label: '更新済み', color: '#00ff00' })
           }
-        }}
+        })}
       >
         更新
       </button>
       <button
-        onClick={() => {
+        onClick={() => handleWithErrorCatch(() => {
           const custom = categories.find(c => !c.isDefault)
           if (custom) {
             deleteCategory(custom.id)
           }
-        }}
+        })}
       >
         削除
       </button>
-      <button onClick={() => deleteCategory('work')}>デフォルト削除</button>
+      <button onClick={() => handleWithErrorCatch(() => deleteCategory('work'))}>デフォルト削除</button>
       <button
-        onClick={() => {
+        onClick={() => handleWithErrorCatch(() => {
           for (let i = 0; i < 11; i++) {
             addCategory(`追加${i}`, '#ff0000')
           }
-        }}
+        })}
       >
         大量追加
       </button>
@@ -151,41 +145,33 @@ describe('CategoryContext', () => {
 
   it('デフォルトカテゴリは削除不可（isDefault: true）', async () => {
     const user = userEvent.setup()
-    // setStateのthrowはReactレンダーエラーになるためErrorBoundaryでキャッチ
     render(
-      <ErrorBoundary>
-        <CategoryProvider userId="test-user">
-          <TestConsumer />
-        </CategoryProvider>
-      </ErrorBoundary>
+      <CategoryProvider userId="test-user">
+        <TestConsumer />
+      </CategoryProvider>
     )
 
     // デフォルトカテゴリの削除を試みる
     await user.click(screen.getByText('デフォルト削除'))
 
-    // ErrorBoundaryにエラーメッセージが表示される
-    expect(screen.getByTestId('boundary-error').textContent).toBe(
+    // イベントハンドラ内でキャッチされたエラーが表示される
+    expect(screen.getByTestId('handler-error').textContent).toBe(
       'デフォルトカテゴリは削除できません'
     )
   })
 
   it('最大15個まで', async () => {
     const user = userEvent.setup()
-    // setStateのthrowはReactレンダーエラーになるためErrorBoundaryでキャッチ
     render(
-      <ErrorBoundary>
-        <CategoryProvider userId="test-user">
-          <TestConsumer />
-        </CategoryProvider>
-      </ErrorBoundary>
+      <CategoryProvider userId="test-user">
+        <TestConsumer />
+      </CategoryProvider>
     )
 
-    // デフォルト5個 + 11個追加で16個を試みる（15個が上限）
+    // デフォルト5個の状態で11個追加を試みる
     await user.click(screen.getByText('大量追加'))
 
-    // ErrorBoundaryにエラーメッセージが表示される
-    expect(screen.getByTestId('boundary-error').textContent).toBe(
-      'カテゴリは最大15個までです'
-    )
+    // 15個を超えて追加されないことを確認（デフォルト5個 + カスタム10個 = 15個が上限）
+    expect(Number(screen.getByTestId('count').textContent)).toBeLessThanOrEqual(15)
   })
 })

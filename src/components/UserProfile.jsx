@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAuth } from './contexts/AuthContext'
+import { useAuth } from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
 /**
@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
  * @returns {JSX.Element|null} 未認証時はnullを返す
  */
 function UserProfile() {
-  const { user, logout } = useAuth()
+  const { user, logout, updateUser } = useAuth()
   const navigate = useNavigate()
   const [isEditing, setIsEditing] = useState(false)
   const [editFormData, setEditFormData] = useState({ userName: '', userEmail: '' })
@@ -54,16 +54,8 @@ function UserProfile() {
         return
       }
 
-      // localStorageのユーザー情報を更新
-      const users = JSON.parse(localStorage.getItem('todoAppUsers') || '[]')
-      const updatedUsers = users.map(u =>
-        u.id === user.id ? { ...u, name: trimmedName, email: trimmedEmail } : u
-      )
-      localStorage.setItem('todoAppUsers', JSON.stringify(updatedUsers))
-
-      // 現在のユーザー情報も更新
-      const updatedUser = { ...user, name: trimmedName, email: trimmedEmail }
-      localStorage.setItem('todoAppUser', JSON.stringify(updatedUser))
+      // AuthContext経由でユーザー情報を更新
+      updateUser({ name: trimmedName, email: trimmedEmail })
 
       setIsEditing(false)
       setSaveMessage('保存しました')

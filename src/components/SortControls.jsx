@@ -15,12 +15,22 @@ function SortControls({ sortMode, setSortMode }) {
   ]
 
   return (
-    <div className="sort-controls">
-      <span className="sort-label">並び替え:</span>
+    <div className="flex items-center gap-1.5 mb-4">
+      <span className="text-[0.75rem] mr-0.5" style={{ color: 'var(--text-muted)' }}>並び替え:</span>
       {modes.map(mode => (
         <button
           key={mode.id}
-          className={`sort-btn ${sortMode === mode.id ? 'active' : ''}`}
+          className={`px-2.5 py-1 text-[0.73rem] rounded-2xl cursor-pointer transition-all duration-300 ${
+            sortMode === mode.id
+              ? 'sort-active'
+              : 'hover:text-[var(--text-primary)]'
+          }`}
+          style={sortMode === mode.id
+            ? undefined
+            : { color: 'var(--text-secondary)', background: 'var(--sort-btn-bg)', border: '1px solid var(--sort-btn-border)' }
+          }
+          onMouseEnter={(e) => { if (sortMode !== mode.id) e.currentTarget.style.background = 'var(--sort-btn-hover-bg)' }}
+          onMouseLeave={(e) => { if (sortMode !== mode.id) e.currentTarget.style.background = 'var(--sort-btn-bg)' }}
           onClick={() => setSortMode(mode.id)}
         >
           {mode.label}

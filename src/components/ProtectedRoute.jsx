@@ -16,7 +16,7 @@ function ProtectedRoute({ children }) {
   // 認証状態の読み込み中はローディング表示
   if (loading) {
     return (
-      <div className="loading-screen">
+      <div className="flex justify-center items-center min-h-screen text-base" style={{ color: 'var(--text-secondary)' }}>
         <p>読み込み中...</p>
       </div>
     )

@@ -78,15 +78,13 @@ describe('TodoApp', () => {
     expect(screen.getByText('完了テスト')).toBeInTheDocument()
 
     // チェックボタンをクリックして完了に切替
-    const checkButtons = screen.getAllByRole('button').filter(
-      btn => btn.classList.contains('check-btn')
-    )
+    const checkButtons = screen.getAllByRole('checkbox')
     expect(checkButtons.length).toBeGreaterThan(0)
     await user.click(checkButtons[0])
 
-    // doneクラスがtodo-itemに追加される
-    const todoItem = checkButtons[0].closest('.todo-item')
-    expect(todoItem).toHaveClass('done')
+    // todo-doneクラスがリストアイテムに追加される（Tailwind移行後）
+    const todoItem = checkButtons[0].closest('li')
+    expect(todoItem).toHaveClass('todo-done')
   })
 
   it('Todo削除が動作する', async () => {
@@ -101,10 +99,8 @@ describe('TodoApp', () => {
     // Todoが表示される
     expect(screen.getByText('削除テスト')).toBeInTheDocument()
 
-    // 削除ボタンをクリック
-    const deleteButtons = screen.getAllByRole('button').filter(
-      btn => btn.classList.contains('delete-btn')
-    )
+    // 削除ボタンをクリック（aria-label="削除"で検索）
+    const deleteButtons = screen.getAllByRole('button', { name: '削除' })
     expect(deleteButtons.length).toBeGreaterThan(0)
     await user.click(deleteButtons[0])
 

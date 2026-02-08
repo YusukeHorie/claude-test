@@ -39,7 +39,7 @@ function TodoList({ todos, onDragEnd, toggleTodo, deleteTodo, dragDisabled }) {
         items={todos.map(t => t.id)}
         strategy={verticalListSortingStrategy}
       >
-        <ul className="todo-list">
+        <ul className="list-none flex flex-col gap-2">
           {todos.map(todo => (
             <SortableItem
               key={todo.id}
